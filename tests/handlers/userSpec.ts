@@ -9,9 +9,17 @@ const request = supertest(app);
 const userStore = new UserStore();
 
 describe("User Handler", () => {
-  const mockToken =
-    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjo4LCJmaXJzdF9uYW1lIjoiTW9oYW1lZCIsImxhc3RfbmFtZSI6Ik1vbnRhc3NlciIsInBhc3N3b3JkX2RpZ2VzdCI6IiQyYiQxMCQ4UjlaWTRiQjE0YzQubG1HSWVjUWQudjlHVE1UaUF4Lkx5YUQ3dWpVTUFxWldZM1B5V0NhLiJ9LCJpYXQiOjE2NTIwMzQzMDN9.UyUTHfO5yYWHyn5S5FJs2asoYRcAS3zyZJjd052VvE0";
-  let userId = 1;
+  let mockToken: string;
+  let userId: number;
+
+  beforeAll(async () => {
+    const userRes = await request.post("/users").send({
+      firstName: "John",
+      lastName: "Doe",
+      password: "123456",
+    });
+    mockToken = userRes.body.token;
+  });
 
   it("should show a list of all users when GET /users if authenticated", async () => {
     const response = await request

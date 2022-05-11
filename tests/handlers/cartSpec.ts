@@ -12,9 +12,7 @@ const productStore = new ProductStore();
 const orderStore = new OrderStore();
 
 describe("Cart Handler", () => {
-  const mockToken =
-    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjo4LCJmaXJzdF9uYW1lIjoiTW9oYW1lZCIsImxhc3RfbmFtZSI6Ik1vbnRhc3NlciIsInBhc3N3b3JkX2RpZ2VzdCI6IiQyYiQxMCQ4UjlaWTRiQjE0YzQubG1HSWVjUWQudjlHVE1UaUF4Lkx5YUQ3dWpVTUFxWldZM1B5V0NhLiJ9LCJpYXQiOjE2NTIwMzQzMDN9.UyUTHfO5yYWHyn5S5FJs2asoYRcAS3zyZJjd052VvE0";
-
+  let mockToken: string;
   let userId: number;
   let productId: number;
   let orderId: number;
@@ -27,6 +25,12 @@ describe("Cart Handler", () => {
       password: "123456",
     });
     userId = user.id;
+    mockToken = (
+      await request.post("/users/login").send({
+        id: user.id,
+        password: "123456",
+      })
+    ).body.token;
     const product = await productStore.create({
       name: "Product 1",
       price: 100,
