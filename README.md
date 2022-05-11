@@ -24,6 +24,7 @@ GRANT ALL PRIVILEGES ON DATABASE <database_name> TO <username>;
 GRANT ALL PRIVILEGES ON DATABASE <database_name>_test TO <username>;
 ```
 
+- run database on port 5432
 - then create a .env file in the root directory with the following contents:
 
 ```

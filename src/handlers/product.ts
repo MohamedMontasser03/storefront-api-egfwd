@@ -5,14 +5,24 @@ import { ProductStore } from "../models/product";
 const store = new ProductStore();
 
 const index = async (_req: Request, res: Response) => {
-  const products = await store.index();
-  res.send(products);
+  try {
+    const products = await store.index();
+    res.send(products);
+  } catch (err) {
+    res.status(400);
+    res.json({ error: err });
+  }
 };
 
 const show = async (req: Request, res: Response) => {
-  const productID = req.params.id;
-  const product = await store.show(Number(productID));
-  res.json(product);
+  try {
+    const productID = req.params.id;
+    const product = await store.show(Number(productID));
+    res.json(product);
+  } catch (err) {
+    res.status(400);
+    res.json({ error: err });
+  }
 };
 
 const create = async (req: Request, res: Response) => {
@@ -23,9 +33,9 @@ const create = async (req: Request, res: Response) => {
     };
     const newProduct = await store.create(product);
     res.json(newProduct);
-  } catch (err: any) {
+  } catch (err) {
     res.status(400);
-    res.json({ error: err.message });
+    res.json({ error: err });
   }
 };
 

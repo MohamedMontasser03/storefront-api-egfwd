@@ -8,13 +8,13 @@ const requiresAuth = async (
 ) => {
   try {
     const authorizationHeader = (req.headers.authorization ||
-      req.headers.Authorization) as string;
+      req.headers.Authorization ||
+      "") as string;
     const token = authorizationHeader.split(" ")[1];
     jwt.verify(token, process.env.TOKEN_SECRET as string);
+    res.locals.userId = (jwt.decode(token) as jwt.JwtPayload)?.user.id;
     next();
   } catch (err) {
-    res.status(401);
-    res.json("Access denied, invalid token");
     return res.status(401).json("Access denied, invalid token");
   }
 };

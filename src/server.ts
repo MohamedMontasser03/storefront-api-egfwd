@@ -16,3 +16,5 @@ productRoutes(app);
 cartRoutes(app);
 
 app.listen(port, () => console.log(`starting app on port ${port}`));
+
+export default app;

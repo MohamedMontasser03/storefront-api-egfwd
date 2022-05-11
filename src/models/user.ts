@@ -88,19 +88,23 @@ export class UserStore {
   }
 
   async authenticate(id: number, password: string): Promise<User | null> {
-    const conn = await client.connect();
-    const sql = "SELECT * FROM users WHERE id=($1)";
+    try {
+      const conn = await client.connect();
+      const sql = "SELECT * FROM users WHERE id=($1)";
 
-    const result = await conn.query(sql, [id]);
+      const result = await conn.query(sql, [id]);
 
-    if (result.rows.length) {
-      const user = result.rows[0];
+      if (result.rows.length) {
+        const user = result.rows[0];
 
-      if (compareSync(password + pepper, user.password_digest)) {
-        return formatUser(user);
+        if (compareSync(password + pepper, user.password_digest)) {
+          return formatUser(user);
+        }
       }
-    }
 
-    return null;
+      return null;
+    } catch (err) {
+      throw new Error(`Could not authenticate user ${id}. Error: ${err}`);
+    }
   }
 }
