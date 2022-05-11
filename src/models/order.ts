@@ -56,6 +56,7 @@ export class OrderStore {
     productId: number,
     quantity: number
   ): Promise<{
+    id: number;
     orderId: number;
     productId: number;
     quantity: number;
@@ -67,6 +68,7 @@ export class OrderStore {
       const res = await conn.query(sql, [orderId, productId, quantity]);
       conn.release();
       return {
+        id: res.rows[0].id,
         orderId: res.rows[0].order_id,
         productId: res.rows[0].product_id,
         quantity: res.rows[0].quantity,

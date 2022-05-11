@@ -5,7 +5,7 @@ import supertest from "supertest";
 import { UserStore } from "../../src/models/user";
 import app from "../../src/server";
 
-let request = supertest(app);
+const request = supertest(app);
 const userStore = new UserStore();
 
 describe("User Handler", () => {

@@ -18,6 +18,10 @@ const show = async (req: Request, res: Response) => {
   try {
     const productID = req.params.id;
     const product = await store.show(Number(productID));
+    if (!product) {
+      res.status(404);
+      return res.json("Product not found");
+    }
     res.json(product);
   } catch (err) {
     res.status(400);
@@ -32,7 +36,7 @@ const create = async (req: Request, res: Response) => {
       price: req.body.price,
     };
     const newProduct = await store.create(product);
-    res.json(newProduct);
+    res.status(201).json(newProduct);
   } catch (err) {
     res.status(400);
     res.json({ error: err });
